@@ -1,0 +1,26 @@
+version: "3"
+services:
+    node-app:
+        image: "app-node-webhook"
+        build: .
+        expose:
+            - "5000"
+    web:
+        image: "nginx:stable-alpine"
+        volumes:
+            - "${PWD}/nginx/_nginx.conf:/etc/nginx/conf.d/default.conf"
+        ports:
+            - "8080:80"
+
+# volumes:
+#     nginx_config:
+#         driver: local
+#         driver_opts:
+#             type: none
+#             device: ${PWD}/nginx/_nginx.conf
+#             o: bind
+
+networks:
+    default:
+        external:
+            name: api-wavy
